@@ -1,0 +1,16 @@
+{
+
+  "manifest_version": 2,
+  "name": "AdMute",
+  "version": "1.0",
+
+  "description": "Mutes spotify tab when ad plays", 
+
+  "content_scripts": [
+    {
+      "matches": ["*://open.spotify.com/*"],
+      "js": ["admute.js"]
+    }
+  ]
+
+}
