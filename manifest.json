@@ -1,10 +1,10 @@
 {
 
   "manifest_version": 2,
-  "name": "AdMute",
-  "version": "1.0",
+  "name": "Spotify AdMute",
+  "version": "2.0",
 
-  "description": "Mutes spotify tab when ad plays", 
+  "description": "Mutes Spotify web player during ads",
 
   "content_scripts": [
     {
