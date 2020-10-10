@@ -43,9 +43,11 @@ getMuteBtn().then(() => {
 getTitleDiv().then(()=>{
     let observer = new MutationObserver(function(mutations) {
         const title = titleDiv.innerText;
-        if(title === "Advertisement" && muteState === 1) {
-            muteBtn.click();
-        } else if(title !== "Advertisement" && muteState === 0) {
+        if(title === "Advertisement" || title === "Spotify") {
+            if(muteState === 1) {
+                muteBtn.click();
+            }
+        } else if(muteState === 0) {
             muteBtn.click();
         } else {
         }
