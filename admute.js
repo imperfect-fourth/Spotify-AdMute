@@ -11,7 +11,6 @@ function getMuteBtn() {
     return new Promise(async (resolve) => {
         muteBtn = document.querySelector('.spoticon-volume-16.control-button.volume-bar__icon');
         if(muteBtn) {
-            console.log(muteBtn);
             resolve();
         } else {
             await sleep(2000);
@@ -20,16 +19,15 @@ function getMuteBtn() {
     });
 }
 
-let titleDiv;
-function getTitleDiv() {
+let artistDiv;
+function getArtistDiv() {
     return new Promise(async(resolve) => {
-        titleDiv = document.querySelector('._3773b711ac57b50550c9f80366888eab-scss.ellipsis-one-line');
-        if(titleDiv) {
-            console.log(titleDiv);
+        artistDiv = document.querySelector('.b6d18e875efadd20e8d037931d535319-scss.ellipsis-one-line');
+        if(artistDiv) {
             resolve();
         } else {
             await sleep(2000);
-            getTitleDiv().then(resolve);
+            getArtistDiv().then(resolve);
         }
     });
 }
@@ -40,10 +38,10 @@ getMuteBtn().then(() => {
     });
 });
 
-getTitleDiv().then(()=>{
+getArtistDiv().then(()=>{
     let observer = new MutationObserver(function(mutations) {
-        const title = titleDiv.innerText;
-        if(title === "Advertisement" || title === "Spotify") {
+        const artist = artistDiv.innerText;
+        if(artist === "Spotify") {
             if(muteState === 1) {
                 muteBtn.click();
             }
@@ -53,6 +51,6 @@ getTitleDiv().then(()=>{
         }
     });
 
-    observer.observe(titleDiv, config);
+    observer.observe(artistDiv, config);
 });
 
