@@ -20,15 +20,15 @@ function getMuteBtn() {
     });
 }
 
-let artistDiv;
-function getArtistDiv() {
+let trackDiv;
+function getTrackDiv() {
     return new Promise(async(resolve) => {
-        artistDiv = document.querySelector('.b6d18e875efadd20e8d037931d535319-scss.ellipsis-one-line');
-        if(artistDiv) {
+        trackDiv = document.querySelector('._5c9e3ef76ffc5bc2927fdf51d789e2e6-scss.ellipsis-one-line');
+        if(trackDiv) {
             resolve();
         } else {
             await sleep(2000);
-            getArtistDiv().then(resolve);
+            getTrackDiv().then(resolve);
         }
     });
 }
@@ -39,10 +39,15 @@ getMuteBtn().then(() => {
     });
 });
 
-getArtistDiv().then(()=>{
+let titleDiv;
+let artistDiv;
+getTrackDiv().then(()=>{
+    titleDiv = document.querySelector('._3773b711ac57b50550c9f80366888eab-scss.ellipsis-one-line');
+    artistDiv = document.querySelector('.b6d18e875efadd20e8d037931d535319-scss.ellipsis-one-line');
     let observer = new MutationObserver(function(mutations) {
+        const title = titleDiv.innerText;
         const artist = artistDiv.innerText;
-        if(artist === "Spotify") {
+        if(title === "Advertisement" || artist === "Spotify") {
             if(muteState === 1) {
                 muteBtn.click();
                 adMute = 1;
@@ -54,6 +59,6 @@ getArtistDiv().then(()=>{
         }
     });
 
-    observer.observe(artistDiv, config);
+    observer.observe(trackDiv, config);
 });
 
