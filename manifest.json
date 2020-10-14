@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Spotify AdMute",
-  "version": "2.0",
+  "version": "3.0",
 
   "description": "Mutes Spotify web player during ads",
 
