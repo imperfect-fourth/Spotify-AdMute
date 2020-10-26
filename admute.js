@@ -2,11 +2,12 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const config = { attributes: true, childList: true, subtree: true };
+const config = { attributes: true };
 
 let muteState = 1; // 1 = unmuted, 0 = muted
 let adMute = 0; // to keep track if the player was muted by the extension or the user
 let muteBtn;
+let forwardBtn;
 
 function getMuteBtn() {
     return new Promise(async (resolve) => {
@@ -20,15 +21,14 @@ function getMuteBtn() {
     });
 }
 
-let trackDiv;
-function getTrackDiv() {
+function getForwardBtn() {
     return new Promise(async(resolve) => {
-        trackDiv = document.querySelector('._5c9e3ef76ffc5bc2927fdf51d789e2e6-scss.ellipsis-one-line');
-        if(trackDiv) {
+        forwardBtn = document.querySelector('.control-button.spoticon-skip-forward-16');
+        if(forwardBtn) {
             resolve();
         } else {
             await sleep(2000);
-            getTrackDiv().then(resolve);
+            getForwardBtn().then(resolve);
         }
     });
 }
@@ -39,15 +39,9 @@ getMuteBtn().then(() => {
     });
 });
 
-let titleDiv;
-let artistDiv;
-getTrackDiv().then(()=>{
-    titleDiv = document.querySelector('._3773b711ac57b50550c9f80366888eab-scss.ellipsis-one-line');
-    artistDiv = document.querySelector('.b6d18e875efadd20e8d037931d535319-scss.ellipsis-one-line');
+getForwardBtn().then(()=>{
     let observer = new MutationObserver(function(mutations) {
-        const title = titleDiv.innerText;
-        const artist = artistDiv.innerText;
-        if(title === "Advertisement" || artist === "Spotify") {
+        if(forwardBtn.hasAttribute('disabled')) {
             if(muteState === 1) {
                 muteBtn.click();
                 adMute = 1;
@@ -59,6 +53,6 @@ getTrackDiv().then(()=>{
         }
     });
 
-    observer.observe(trackDiv, config);
+    observer.observe(forwardBtn, config);
 });
 
