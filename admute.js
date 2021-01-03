@@ -11,12 +11,7 @@ let forwardBtn;
 
 function getMuteBtn() {
     return new Promise(async (resolve) => {
-        // try catch in case DOM is not loaded
-        try {
-            muteBtn = document.querySelector('.volume-bar').firstChild;
-        } catch {
-            muteBtn = undefined;
-        }
+        muteBtn = document.querySelector('[aria-label="Mute"]');
 
         if(muteBtn) {
             resolve();
@@ -29,11 +24,7 @@ function getMuteBtn() {
 
 function getForwardBtn() {
     return new Promise(async(resolve) => {
-        try {
-            forwardBtn = document.querySelector('.player-controls__buttons').children[3];
-        } catch {
-            forwardBtn = undefined;
-        }
+        forwardBtn = document.querySelector('[aria-label="Next"]');
 
         if(forwardBtn) {
             resolve();
