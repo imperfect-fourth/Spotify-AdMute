@@ -11,7 +11,7 @@ let forwardBtn;
 
 function getMuteBtn() {
     return new Promise(async (resolve) => {
-        muteBtn = document.querySelector('.spoticon-volume-16.control-button.volume-bar__icon');
+        muteBtn = document.querySelector('[aria-label="Mute"]');
         if(muteBtn) {
             resolve();
         } else {
@@ -23,7 +23,7 @@ function getMuteBtn() {
 
 function getForwardBtn() {
     return new Promise(async(resolve) => {
-        forwardBtn = document.querySelector('.control-button.spoticon-skip-forward-16');
+        forwardBtn = document.querySelector('[aria-label="Next"]');
         if(forwardBtn) {
             resolve();
         } else {
