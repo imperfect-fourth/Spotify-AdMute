@@ -11,7 +11,13 @@ let forwardBtn;
 
 function getMuteBtn() {
     return new Promise(async (resolve) => {
-        muteBtn = document.querySelector('.spoticon-volume-16.control-button.volume-bar__icon');
+        // try catch in case DOM is not loaded
+        try {
+            muteBtn = document.querySelector('.volume-bar').firstChild;
+        } catch {
+            muteBtn = undefined;
+        }
+
         if(muteBtn) {
             resolve();
         } else {
@@ -23,7 +29,12 @@ function getMuteBtn() {
 
 function getForwardBtn() {
     return new Promise(async(resolve) => {
-        forwardBtn = document.querySelector('.control-button.spoticon-skip-forward-16');
+        try {
+            forwardBtn = document.querySelector('.player-controls__buttons').children[3];
+        } catch {
+            forwardBtn = undefined;
+        }
+
         if(forwardBtn) {
             resolve();
         } else {
