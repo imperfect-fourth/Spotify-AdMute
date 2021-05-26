@@ -8,6 +8,7 @@ let muteState = 1; // 1 = unmuted, 0 = muted
 let adMute = 0; // to keep track if the player was muted by the extension or the user
 let muteBtn;
 let forwardBtn;
+let trackDiv;
 
 function getMuteBtn() {
     return new Promise(async (resolve) => {
@@ -35,13 +36,28 @@ function getForwardBtn() {
     });
 }
 
+function getTrackDiv() {
+    return new Promise(async(resolve) => {
+        trackDiv = document.querySelector('div[aria-label*="Now playing"]')
+
+        if(trackDiv) {
+            resolve();
+        } else {
+            await sleep(2000);
+            getTrackDiv().then(resolve);
+        }
+    });
+}
+
+getForwardBtn();
+
 getMuteBtn().then(() => {
     muteBtn.addEventListener('click', function() {
         muteState = 1-muteState;
     });
 });
 
-getForwardBtn().then(()=>{
+getTrackDiv().then(()=>{
     let observer = new MutationObserver(function(mutations) {
         if(forwardBtn.hasAttribute('disabled')) {
             if(muteState === 1) {
@@ -55,6 +71,6 @@ getForwardBtn().then(()=>{
         }
     });
 
-    observer.observe(forwardBtn, config);
+    observer.observe(trackDiv, config);
 });
 
