@@ -2,64 +2,44 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function getElement(query) {
+    return new Promise(async (resolve) => {
+        let element = document.querySelector(query);
+
+        if(element) {
+            resolve(element);
+        } else {
+            await sleep(2000);
+            getElement(query).then(resolve);
+        }
+    });
+}
+
 const config = { attributes: true };
 
 let muteState = 1; // 1 = unmuted, 0 = muted
 let adMute = 0; // to keep track if the player was muted by the extension or the user
 let muteBtn;
-let forwardBtn;
-let trackDiv;
+let nextBtn;
 
-function getMuteBtn() {
-    return new Promise(async (resolve) => {
-        muteBtn = document.querySelector('[aria-label="Mute"]');
 
-        if(muteBtn) {
-            resolve();
-        } else {
-            await sleep(2000);
-            getMuteBtn().then(resolve);
-        }
-    });
-}
+Promise.all([
+    getElement('[aria-label="Mute"]'),
+    getElement('[aria-label="Next"]')
+])
+.then((buttons) => {
+    [muteBtn, nextBtn] = buttons;
 
-function getForwardBtn() {
-    return new Promise(async(resolve) => {
-        forwardBtn = document.querySelector('[aria-label="Next"]');
-
-        if(forwardBtn) {
-            resolve();
-        } else {
-            await sleep(2000);
-            getForwardBtn().then(resolve);
-        }
-    });
-}
-
-function getTrackDiv() {
-    return new Promise(async(resolve) => {
-        trackDiv = document.querySelector('div[aria-label*="Now playing"]')
-
-        if(trackDiv) {
-            resolve();
-        } else {
-            await sleep(2000);
-            getTrackDiv().then(resolve);
-        }
-    });
-}
-
-getForwardBtn();
-
-getMuteBtn().then(() => {
     muteBtn.addEventListener('click', function() {
         muteState = 1-muteState;
     });
-});
 
-getTrackDiv().then(()=>{
+    return getElement('[aria-label*="Now playing"]');
+})
+.then((trackDiv) => {
+
     let observer = new MutationObserver(function(mutations) {
-        if(forwardBtn.hasAttribute('disabled')) {
+        if(nextBtn.hasAttribute('disabled')) {
             if(muteState === 1) {
                 muteBtn.click();
                 adMute = 1;
