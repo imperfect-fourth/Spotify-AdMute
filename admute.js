@@ -24,12 +24,14 @@ let nextBtn;
 
 
 Promise.all([
-    getElement('[aria-label="Mute"]'),
-    getElement('[aria-label="Next"]')
+    getElement('.player-controls__right'),
+    getElement('.volume-bar')
 ])
-.then((buttons) => {
-    [muteBtn, nextBtn] = buttons;
+.then((elements) => {
+    [playerControls, volumeBar] = elements;
 
+    nextBtn = playerControls.children[0];
+    muteBtn = volumeBar.children[0];
     muteBtn.addEventListener('click', function() {
         muteState = 1-muteState;
     });
