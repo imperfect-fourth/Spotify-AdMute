@@ -36,10 +36,6 @@ Promise.all([
         muteState = 1-muteState;
     });
 
-    return getElement('[aria-label*="Now playing"]');
-})
-.then((trackDiv) => {
-
     let observer = new MutationObserver(function(mutations) {
         if(nextBtn.hasAttribute('disabled')) {
             if(muteState === 1) {
@@ -52,7 +48,6 @@ Promise.all([
         } else {
         }
     });
-
-    observer.observe(trackDiv, config);
+    observer.observe(nextBtn, config);
 });
 
